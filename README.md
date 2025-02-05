@@ -77,6 +77,23 @@ If this returns a valid response, Ollama is working correctly.
 - Modify `data/reservoir_data.csv` with new values.
 - Run `python main.py` to see if anomalies are detected and recommendations are generated.
 
+### 3. Run the Web App for Interactive Testing
+- The Streamlit web app provides a UI to:
+- - Add normal or anomalous data.
+- - View reservoir trends and anomalies visually.
+- - Receive recommendations dynamically.
+
+- Start the Web App
+```bash
+streamlit run webapp.py
+```
+
+- This will launch a browser-based UI where you can:
+
+- - Click "Add Normal Data" to simulate normal reservoir conditions.
+- - Click "Add Anomaly Data" to introduce anomalies.
+- - See real-time anomaly detection results and recommendations.
+
 ---
 
 ## Next Steps: Deploying to Azure
