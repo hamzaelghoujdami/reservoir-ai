@@ -1,0 +1,26 @@
+# Virtual environment
+.venv/
+env/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Ignore logs and temp files
+*.log
+logs/
+*.tmp
+*.swp
+
+# Ignore VSCode settings (if applicable)
+.vscode/
+
+# Ignore data files that should not be in version control
+data/*.csv
+
+# Ignore system files (macOS & Windows)
+.DS_Store
+Thumbs.db
+
+# Ignore Ollama cache (if applicable)
+~/.ollama/
