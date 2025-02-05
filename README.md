@@ -18,43 +18,46 @@ The system consists of three core agents:
 
 ```mermaid
 graph TD
-    CSV((Reservoir CSV)) --> DMA[Data Monitor Agent]
-    DMA --> ADA[Anomaly Detection Agent]
-    ADA --> RA[Recommendation Agent]
-    ADA <--> OLLAMA[Ollama Server]
-    OLLAMA <--> DS[DeepSeek-r1:1.5b]
-    
-    subgraph Local["Local Environment"]
-        DOCKER[Docker Container]
+    subgraph "Data Sources"
+        CSV((Reservoir CSV))
     end
-    
-    subgraph Azure["Azure Cloud"]
-        AKS[Azure Kubernetes]
-        BLOB[Blob Storage]
-        AIF[Azure AI Foundry]
+
+    subgraph "AG2 Framework"
+        MSG[Message Bus]
+        SCHED[Task Scheduler]
+        STATE[State Manager]
+        
+        subgraph "Agents"
+            DMA[Data Monitor Agent]
+            ADA[Anomaly Detection Agent]
+            RA[Recommendation Agent]
+        end
     end
+
+    subgraph "LLM Integration"
+        OLLAMA[Ollama Server]
+        DS[DeepSeek-r1:1.5b]
+    end
+
+    CSV --> DMA
+    DMA --> MSG
+    MSG --> ADA
+    MSG --> RA
+    ADA <--> OLLAMA
+    RA <--> OLLAMA
+    OLLAMA <--> DS
     
-    DMA -.-> DOCKER
-    ADA -.-> DOCKER
-    RA -.-> DOCKER
-    
-    DMA -.-> AKS
-    ADA -.-> AKS
-    RA -.-> AKS
-    CSV -.-> BLOB
-    ADA -.-> AIF
+    SCHED --> MSG
+    STATE --> MSG
     
     style DMA fill:#FF6B6B,color:white
     style ADA fill:#FF6B6B,color:white
     style RA fill:#FF6B6B,color:white
+    style MSG fill:#FFB347,color:black
+    style SCHED fill:#FFB347,color:black
+    style STATE fill:#FFB347,color:black
     style OLLAMA fill:#4ECDC4,color:black
     style DS fill:#4ECDC4,color:black
-    style DOCKER fill:#2C5F2D,color:white
-    style Azure fill:#0078D4,color:white
-    style AKS fill:#0078D4,color:white
-    style BLOB fill:#0078D4,color:white
-    style AIF fill:#0078D4,color:white
-
 ```
 
 ## Installation & Setup
