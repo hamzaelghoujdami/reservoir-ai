@@ -19,27 +19,42 @@ The system consists of three core agents:
 ```mermaid
 graph TD
     CSV((Reservoir CSV)) --> DMA[Data Monitor Agent]
-    DMA --> AG2[AG2 Framework]
-    AG2 --> ADA[Anomaly Detection Agent]
+    DMA --> ADA[Anomaly Detection Agent]
     ADA --> RA[Recommendation Agent]
     ADA <--> OLLAMA[Ollama Server]
     OLLAMA <--> DS[DeepSeek-r1:1.5b]
     
-    subgraph "Local Environment"
-        AG2
-        DMA
-        ADA
-        RA
-        OLLAMA
-        DS
+    subgraph Local["Local Environment"]
+        DOCKER[Docker Container]
     end
+    
+    subgraph Azure["Azure Cloud"]
+        AKS[Azure Kubernetes]
+        BLOB[Blob Storage]
+        AIF[Azure AI Foundry]
+    end
+    
+    DMA -.-> DOCKER
+    ADA -.-> DOCKER
+    RA -.-> DOCKER
+    
+    DMA -.-> AKS
+    ADA -.-> AKS
+    RA -.-> AKS
+    CSV -.-> BLOB
+    ADA -.-> AIF
     
     style DMA fill:#FF6B6B,color:white
     style ADA fill:#FF6B6B,color:white
     style RA fill:#FF6B6B,color:white
-    style AG2 fill:#FFB347,color:black
     style OLLAMA fill:#4ECDC4,color:black
     style DS fill:#4ECDC4,color:black
+    style DOCKER fill:#2C5F2D,color:white
+    style Azure fill:#0078D4,color:white
+    style AKS fill:#0078D4,color:white
+    style BLOB fill:#0078D4,color:white
+    style AIF fill:#0078D4,color:white
+
 ```
 
 ## Installation & Setup
