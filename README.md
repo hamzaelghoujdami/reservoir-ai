@@ -1,7 +1,7 @@
-# EnergyAI PoC
+# ReservoirAI
 
 ## Overview
-The **EnergyAI PoC** is an AI-driven system designed to monitor reservoir data, detect anomalies using DeepSeek LLM (via Ollama), and generate actionable recommendations. The solution is built using **Python**, leveraging **AG2**, **Ollama**, and **Azure AI services**.
+The **ReservoirAI** is an AI-driven system designed to monitor reservoir data, detect anomalies using DeepSeek LLM (via Ollama), and generate actionable recommendations. The solution is built using **Python**, leveraging **AG2**, **Ollama**, and **Azure AI services**.
 
 ## Architecture
 The system consists of three core agents:
@@ -13,8 +13,60 @@ The system consists of three core agents:
 1. The **Data Monitor Agent** reads reservoir data from a CSV file.
 2. The data is streamed to the **Anomaly Detection Agent**, which runs anomaly detection using **DeepSeek-r1:1.5b** via Ollama.
 3. If an anomaly is detected, the **Recommendation Agent** suggests actions.
-
 ---
+
+## Architecture
+
+```mermaid
+flowchart TD
+    subgraph Data Sources
+        CSV[Reservoir Data\n(CSV)]
+    end
+
+    subgraph Core System
+        DMA[Data Monitor Agent]
+        ADA[Anomaly Detection Agent]
+        RA[Recommendation Agent]
+        
+        subgraph LLM Integration
+            Ollama[Ollama Server]
+            DS[DeepSeek-r1:1.5b]
+        end
+    end
+
+    subgraph Infrastructure
+        direction LR
+        subgraph Local Deployment
+            Docker[Docker Container]
+        end
+        
+        subgraph Azure Deployment
+            ACI[Azure Container Instance]
+            ACR[Azure Container Registry]
+        end
+    end
+
+    CSV --> DMA
+    DMA --> ADA
+    ADA --> RA
+    ADA  Ollama
+    Ollama  DS
+    
+    Core System -.-> Docker
+    Core System -.-> ACI
+    ACR -.-> ACI
+    
+    classDef azure fill:#0078D4,color:#fff
+    classDef local fill:#2C5F2D,color:#fff
+    classDef agent fill:#FF6B6B,color:#fff
+    classDef llm fill:#4ECDC4,color:#fff
+    
+    class ACI,ACR azure
+    class Docker local
+    class DMA,ADA,RA agent
+    class Ollama,DS llm
+```
+
 
 ## Installation & Setup
 ### Prerequisites
@@ -27,8 +79,8 @@ Ensure you have the following installed:
 
 ### Step 1: Clone the Repository
 ```bash
-git clone https://github.com/your-repo/energyai-poc.git
-cd energyai-poc
+git clone https://github.com/your-repo/reservoirai.git
+cd reservoirai
 ```
 
 ### Step 2: Set Up Virtual Environment
