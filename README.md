@@ -49,8 +49,8 @@ flowchart TD
     CSV --> DMA
     DMA --> ADA
     ADA --> RA
-    ADA  Ollama
-    Ollama  DS
+    ADA <--> Ollama
+    Ollama <--> DS
     
     Core System -.-> Docker
     Core System -.-> ACI
@@ -66,7 +66,6 @@ flowchart TD
     class DMA,ADA,RA agent
     class Ollama,DS llm
 ```
-
 
 ## Installation & Setup
 ### Prerequisites
